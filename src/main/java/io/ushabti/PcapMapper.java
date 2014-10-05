@@ -32,14 +32,9 @@ public class PcapMapper extends Mapper<BytesWritable, BytesWritable, Text, IntWr
  @Override
 protected void setup(Context context) throws IOException, InterruptedException {
 	 Configuration conf = context.getConfiguration();
-	 Path [] files = context.getLocalCacheFiles();
 	 
-	 for(Path file : files) {
-		 if(file.getName().equals(DBNAME));
-		 FileSystem fs = FileSystem.getLocal(conf);
-		 is = fs.open(file);
-	 }
-	
+	 FileSystem fs = FileSystem.getLocal(conf);
+	 is = fs.open(new Path(DBNAME));
 	 dbReader = new DatabaseReader.Builder(is).build();
 }
 
@@ -64,4 +59,10 @@ protected void setup(Context context) throws IOException, InterruptedException {
 		e.printStackTrace();
 	}
  }
+
+@Override
+protected void cleanup(Context context) throws IOException, InterruptedException {
+	is.close();
+}
+
 }

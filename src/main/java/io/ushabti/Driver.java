@@ -37,7 +37,7 @@ public class Driver extends Configured implements Tool {
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 		
-//		job.addCacheFile(new Path("hdfs://sandbox.hortonworks.com:8020/user/root/GeoLite2-City.mmdb").toUri());
+		job.addCacheFile(new Path("GeoLite2-City.mmdb").toUri());
 		
 		return job.waitForCompletion(true)?0:1;
 	}
